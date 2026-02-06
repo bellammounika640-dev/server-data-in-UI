@@ -3,22 +3,22 @@ import './App.css';
 import { useEffect, useState , useRef } from "react";
 
 function App() {
-
+// This useState hooks are used to display in UI and when the state variable value change total UI is changed.
  let [data,setData]  = useState([]);
  let [country,setCountry]   = useState([]);
  let [department,setDepartment]  = useState([]);
  let [gender,setGender]    = useState([])
-
+// we create Ref's for controlling selections
  let countrySelectRef = useRef();
  let departmentSelectRef = useRef();
  let genderSelectRef = useRef();
-
+// this useEffect hook used to oncomponent load it will excecute countrylist,departmentlist,genderlist
  useEffect(()=>{
   gettingCountyListFromServer();
   gettingDepartmentListFromServer();
   gettingGenderListFromServer();
  },[])
-
+  // these are separate API's
  let gettingCountyListFromServer = async ()=>{
     let JSOData = await axios.get("http://localhost:1616/countries")
     setCountry(JSOData.data);
@@ -34,7 +34,9 @@ function App() {
     setGender(JSOData.data);
     console.log(JSOData.data);
   }
-
+    
+  // Query string is sent after ? in the URL
+//  Used for filters, search, pagination, optional data
   let gettingDataFromServer = async ()=>{
     let urlQS = `http://localhost:1616/employee?country=${countrySelectRef.current.value}&department=${departmentSelectRef.current.value}&gender=${genderSelectRef.current.value}`
     let JSOData = await axios.get(urlQS)
@@ -42,6 +44,8 @@ function App() {
     console.log(JSOData.data);
     console.log(urlQS);
   }
+  // param aslo same variables used in ULR but difference is QS we use after '?' symbol, parmas we use '/'symbol we are not pass any variables in client,
+  // here in client we pass only values variables we declare in server path
   //  let gettingDataFromServer = async ()=>{
   //   let urlP = `http://localhost:1616/employee/${countrySelectRef.current.value}/${departmentSelectRef.current.value}/${genderSelectRef.current.value}`
   //   let JSOData = await axios.get(urlP)
